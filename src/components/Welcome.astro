@@ -8,58 +8,153 @@
     <title>Portfolio Kece & Optimal</title>
     <meta name="viewport" content="width=device-width" />
   </head>
-  <body class="bg-slate-950 text-white">
+  <body class="bg-slate-950 text-white overflow-x-hidden">
     
+    <!-- Navbar / Header -->
+    <div class="main-tool-bar">Header</div>
+
+    <!-- Loading Screen -->
+    <div class="loading-wrapper">
+      <div class="panel color1"></div>
+      <div class="panel color2"></div>
+      <div class="panel color3"></div>
+      <div class="panel color4"></div>
+    </div>
+
     <!-- Bagian Hero Portfolio -->
-    <main class="h-screen flex flex-col justify-center items-center">
-      <h1 class="hero-title text-5xl font-bold opacity-0">Halo, Saya Web Developer</h1>
-      <p class="hero-desc text-lg mt-4 opacity-0 text-gray-400">Fokus pada Performa & Animasi Halus</p>
-    </main>
+    <div class="content">
+      <main class="h-screen flex flex-col justify-center items-center">
+        <hr>
+        <hr>
+        <hr>
+        <hr>
+        <hr>
+        <hr>
+        
+        <h1 class="hero-title text-5xl font-bold opacity-0">Halo, Saya Web Developer</h1>
+        <p class="hero-desc text-lg mt-4 opacity-0 text-gray-400">Fokus pada Performa & Animasi Halus</p>
+      </main>
+      
+      <!-- Area Scrollable untuk Uji Coba ScrollTrigger -->
+      <div class="scrollable-area"></div>
+    </div>
 
     <!-- Zona Klien (GSAP Animation) -->
     <script>
-    import { gsap } from "gsap";
-    window.addEventListener("DOMContentLoaded", () => {
-      const tl = gsap.timeline();
-      // fromTo mengatur dari posisi AWAL (from) menuju posisi AKHIR (to)
-      tl.fromTo(".hero-title", 
-        { opacity: 0, y: 50 }, // Mulai dari transparan & turun 50px ke bawah
-        { opacity: 1, y: 0, duration: 1, ease: "power3.out" } // Bergerak ke posisi normal
-      )
-      .fromTo(".hero-desc", 
-        { opacity: 0, y: 30 }, // Deskripsi mulai dari bawah 30px
-        { opacity: 1, y: 0, duration: 0.8, ease: "power3.out" }, 
-        "-=0.6" // Curi start 0.6 detik
-      );
-    });
+      import { gsap } from "gsap";
+      import { ScrollTrigger } from "gsap/ScrollTrigger";
+
+      // Register plugin ScrollTrigger ke GSAP
+      gsap.registerPlugin(ScrollTrigger);
+
+      document.addEventListener("DOMContentLoaded", () => {
+        // 1. Animasi Loading & Intro Hero Content
+        const tl = gsap.timeline();
+
+        tl.to(".panel", {
+          xPercent: -100,
+          duration: 1.2,
+          stagger: 0.12,
+          ease: "expo.out",
+          onComplete: () => {
+            const loader = document.querySelector(".loading-wrapper") as HTMLElement;
+            if (loader) loader.style.display = "none";
+          }
+        })
+        .fromTo(".hero-title", 
+          { opacity: 0, y: 50 }, 
+          { opacity: 1, y: 0, duration: 0.8, ease: "power3.out" },
+          "-=0.6"
+        )
+        .fromTo(".hero-desc", 
+          { opacity: 0, y: 30 }, 
+          { opacity: 1, y: 0, duration: 0.8, ease: "power3.out" }, 
+          "-=0.6"
+        );
+
+        // 2. ScrollTrigger untuk Smart Header (Sembunyi saat Scroll Down, Muncul saat Scroll Up)
+        const showAnim = gsap.from(".main-tool-bar", {
+          yPercent: -100,
+          paused: true,
+          duration: 0.3,
+          ease: "power2.out"
+        }).progress(1);
+
+        ScrollTrigger.create({
+          start: "top top",
+          end: "max",
+          onUpdate: (self) => {
+            // Jika scroll ke atas (direction === -1), tampilkan header. Jika ke bawah, sembunyikan.
+            self.direction === -1 ? showAnim.play() : showAnim.reverse();
+          }
+        });
+      });
     </script>
+
+    <style>
+      body {
+        font-family: Inter, Roboto, 'Helvetica Neue', sans-serif;
+        margin: 0;
+      }
+
+      .loading-wrapper {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100vw;
+        height: 100vh;
+        z-index: 9999;
+        pointer-events: none;
+      }
+
+      .panel {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+      }
+
+      .color1 {
+        z-index: 4;
+        background-color: #FFCA95;
+      }
+      .color2 {
+        z-index: 3;
+        background-color: #FF7873;
+      }
+      .color3 {
+        z-index: 2;
+        background-color: #E22F80;
+      }
+      .color4 {
+        z-index: 1;
+        background-color: #8140DC;
+      }
+
+      .scrollable-area {
+        height: 200vh;
+      }
+
+      .main-tool-bar {
+        height: 80px;
+        background: linear-gradient(
+          144.02deg,
+          var(--color-blue, #3b82f6) 4.56%,
+          var(--color-pink, #3b82f6) 72.98%
+        );
+        color: #ffffff;
+        font-weight: 600;
+        text-align: center;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        position: fixed;
+        width: 100%;
+        left: 0;
+        top: 0;
+        z-index: 100; /* Menjaga header tetap berada di atas konten saat di-scroll */
+      }
+    </style>
   </body>
 </html>
-
-<!-- Gunakan tag style ini HANYA untuk CSS kustom yang tidak bisa di-handle Tailwind -->
-<style>
-  /* Contoh: font kustom atau efek spesifik */
-  body {
-    font-family: Inter, Roboto, 'Helvetica Neue', sans-serif;
-  }
-
-  .color1
-  {
-    color: #FFCA95; /* Contoh warna kustom */
-  }
-  .color2
-  {
-    color: #FF7873; /* Contoh warna kustom */
-  }
-
-  .color3
-  {
-    color: #E22F80; /* Contoh warna kustom */
-  }
-
-  .color4
-  {
-    color: #8140DC; /* Contoh warna kustom */
-  }
-
-</style>
