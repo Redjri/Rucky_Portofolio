@@ -1,6 +1,6 @@
 ---
-// src/pages/index.astro
-import '../styles/global.css';
+import "../Script/animation.js";
+import "../styles/global.css";
 ---
 
 <html lang="id">
@@ -60,122 +60,11 @@ import '../styles/global.css';
       <div class="scrollable-area"></div>
     </div>
 
-    <!-- Zona Klien (GSAP Animation) -->
-    <script>
-      import { gsap } from "gsap";
-      import { ScrollTrigger } from "gsap/ScrollTrigger";
+<script>
+  
+  import "../Script/animation.js";
 
-      // Register plugin ScrollTrigger ke GSAP
-      gsap.registerPlugin(ScrollTrigger);
+</script>
 
-      document.addEventListener("DOMContentLoaded", () => {
-        // 1. Animasi Loading & Intro Hero Content
-        const tl = gsap.timeline();
-
-        tl.to(".panel", {
-          xPercent: 100,
-          duration: 1.2,
-          stagger: 0.12,
-          ease: "expo.out",
-          onComplete: () => {
-            const loader = document.querySelector(".loading-wrapper") as HTMLElement;
-            if (loader) loader.style.display = "none";
-          }
-        })
-        .fromTo(".hero-title", 
-          { opacity: 0, y: 50 }, 
-          { opacity: 1, y: 0, duration: 0.8, ease: "power3.out" },
-          "-=0.6"
-        )
-        .fromTo(".hero-desc", 
-          { opacity: 0, y: 30 }, 
-          { opacity: 1, y: 0, duration: 0.8, ease: "power3.out" }, 
-          "-=0.6"
-        );
-
-        // // 2. ScrollTrigger untuk Smart Header (Sembunyi saat Scroll Down, Muncul saat Scroll Up)
-        // const showAnim = gsap.from(".main-tool-bar", {
-        //   yPercent: -100,
-        //   paused: true,
-        //   duration: 0.3,
-        //   ease: "power2.out"
-        // }).progress(1);
-
-        // ScrollTrigger.create({
-        //   start: "top top",
-        //   end: "max",
-        //   onUpdate: (self) => {
-        //     // Jika scroll ke atas (direction === -1), tampilkan header. Jika ke bawah, sembunyikan.
-        //     self.direction === -1 ? showAnim.play() : showAnim.reverse();
-        //   }
-        // });
-      });
-    </script>
-
-    <style>
-      body {
-        font-family: Inter, Roboto, 'Helvetica Neue', sans-serif;
-        margin: 0;
-      }
-
-      .loading-wrapper {
-        position: fixed;
-        top: 0;
-        left: 0;
-        width: 100vw;
-        height: 100vh;
-        z-index: 9999;
-        pointer-events: none;
-      }
-
-      .panel {
-        position: absolute;
-        top: 0;
-        left: 0;
-        width: 100%;
-        height: 100%;
-      }
-
-      .color1 {
-        z-index: 4;
-        background-color: #FFCA95;
-      }
-      .color2 {
-        z-index: 3;
-        background-color: #FF7873;
-      }
-      .color3 {
-        z-index: 2;
-        background-color: #E22F80;
-      }
-      .color4 {
-        z-index: 1;
-        background-color: #8140DC;
-      }
-
-      .scrollable-area {
-        height: 200vh;
-      }
-
-      .main-tool-bar {
-        height: 80px;
-        background: linear-gradient(
-          144.02deg,
-          var(--color-blue, #3b82f6) 4.56%,
-          var(--color-pink, #3b82f6) 72.98%
-        );
-        color: #ffffff;
-        font-weight: 600;
-        text-align: center;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        position: fixed;
-        width: 100%;
-        left: 0;
-        top: 0;
-        z-index: 100; /* Menjaga header tetap berada di atas konten saat di-scroll */
-      }
-    </style>
   </body>
 </html>

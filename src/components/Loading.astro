@@ -1,0 +1,23 @@
+---
+import "../Script/animation.js";
+import "../styles/global.css";
+---
+
+<div id="loader">
+  <h1>Loading...</h1>
+</div>
+
+<script>
+  import gsap from "gsap";
+
+  window.addEventListener("load", () => {
+    gsap.to("#loader", {
+      opacity: 0,
+      duration: 1,
+      delay: 1,
+      onComplete: () => {
+        document.getElementById("loader")?.remove();
+      },
+    });
+  });
+</script>
