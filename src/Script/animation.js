@@ -1,47 +1,29 @@
+// Script/animation.js
+
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 
 gsap.registerPlugin(ScrollTrigger);
 
-function startAnimation() {
-  const tl = gsap.timeline();
+export function startAnimation() {
+  const tl = gsap.timeline({ paused: true });
 
   tl.to(".panel", {
-    xPercent: 100,
+    xPercent: 100, // Menggeser panel ke kanan layar
     duration: 1.2,
     stagger: 0.12,
     ease: "expo.out",
   })
+    .to(".hero-title", { 
+      opacity: 1, 
+      y: 0, 
+      duration: 0.8 
+    }, "-=0.6")
+    .to(".hero-desc", { 
+      opacity: 1, 
+      y: 0, 
+      duration: 0.8 
+    }, "-=0.6");
 
-    .fromTo(
-      ".hero-title",
-      {
-        opacity: 0,
-        y: 50,
-      },
-      {
-        opacity: 1,
-        y: 0,
-        duration: 0.8,
-      },
-      "-=0.6"
-    )
-
-    .fromTo(
-      ".hero-desc",
-      {
-        opacity: 0,
-        y: 30,
-      },
-      {
-        opacity: 1,
-        y: 0,
-        duration: 0.8,
-      },
-      "-=0.6"
-    );
-}
-
-if (typeof window !== "undefined") {
-  window.addEventListener("load", startAnimation);
+  return tl;
 }

@@ -1,23 +1,79 @@
 ---
-import "../Script/animation.js";
 import "../styles/global.css";
 ---
 
-<div id="loader">
-  <h1>Loading...</h1>
+<!-- Teks Loading Awal -->
+<div id="loader" class="fixed inset-0 z-[10000] flex items-center justify-center bg-black/80 ">
+  
+  <!-- === PROGRESS BAR === -->
+  <div class="absolute left-0 top-0 w-13 md:w-20 h-full bg-slate-990 z-10">
+    <div id="progress-bar" class="color1 w-full h-0"></div>
+  </div>
+
+  <!-- Area Teks Loading -->
+  <div id="loading-content" class="flex flex-col items-center z-20">
+    <h1 class="text-white text-3xl font-bold tracking-widest uppercase">Loading</h1>
+    <p id="progress-text" class="text-[#FFCA95] font-mono font-bold mt-3 text-xl">0%</p>
+  </div>
+</div>
+
+<!-- 4 Layer Panel Warna -->
+<div class="loading-wrapper fixed inset-0 z-[9999] flex pointer-events-none">
+  <div class="panel color1"></div>
+  <div class="panel color2"></div>
+  <div class="panel color3"></div>
+  <div class="panel color4"></div>
 </div>
 
 <script>
   import gsap from "gsap";
+  import { startAnimation } from "../Script/animation";
+
+  const mainAnim = startAnimation();
 
   window.addEventListener("load", () => {
-    gsap.to("#loader", {
-      opacity: 0,
-      duration: 1,
-      delay: 1,
+    const loaderTl = gsap.timeline();
+    let progress = { val: 0 };
+
+    // 1. Animasi Progress Bar dan Angka dari 0 ke 100
+    loaderTl.to("#progress-bar", {
+      height: "100%", 
+      duration: 2,    
+      ease: "power2.inOut",
+    }, 0)
+    .to(progress, {
+      val: 100, 
+      duration: 2,
+      ease: "power2.inOut",
+      onUpdate: () => {
+        const textEl = document.getElementById("progress-text");
+        if(textEl) textEl.innerText = Math.round(progress.val) + "%";
+      }
+    }, 0)
+
+    // 2. Hilangkan TEKS saja dengan cepat agar halamannya bersih menjadi full hitam
+    .to("#loading-content, #progress-bar", { 
+      opacity: 0, 
+      duration: 0.2 
+    })
+
+    // 3. INIT INTI: SWIPE HALAMAN HITAM KE KANAN! (Tidak pakai opacity)
+    .to("#loader", {
+      xPercent: 100, // Halaman hitam bergeser ke kanan
+      duration: 1.2,
+      ease: "expo.out",
+      onStart: () => {
+        // Menggunakan gsap.delayedCall agar sinkron!
+        // Beri jeda 0.12 detik (persis seperti 'stagger: 0.12' di animation.js) 
+        // Baru jalankan panel warna.
+        // Hasilnya: Hitam geser -> Kuning nyusul -> Merah nyusul -> dst.
+        gsap.delayedCall(0.12, () => {
+          mainAnim.play(); 
+        });
+      },
       onComplete: () => {
         document.getElementById("loader")?.remove();
-      },
-    });
+      }
+    }, "-=0.1"); // Mulai geser seketika setelah teks hilang
   });
 </script>

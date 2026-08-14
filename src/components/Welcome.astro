@@ -1,70 +1,37 @@
 ---
-import "../Script/animation.js";
 import "../styles/global.css";
 ---
 
-<html lang="id">
-  <head>
-    <meta charset="utf-8" />
-    <title>Portfolio Kece & Optimal</title>
-    <meta name="viewport" content="width=device-width" />
-  </head>
-  <body class="bg-slate-950 text-white overflow-x-hidden">
-
 <!-- === SIDEBAR KIRI (Arknights Style) === -->
-    <!-- w-20 bikin ukurannya sempit (80px), z-50 memastikannya selalu di paling atas -->
-    <nav class="fixed top-0 left-0 w-20 h-full bg-black/80 backdrop-blur-sm border-r border-slate-800 flex flex-col items-center py-6 z-50">
-      
-      <!-- Logo Atas (Menggantikan logo Endfield) -->
-      <div class="w-10 h-10 bg-white text-black font-extrabold flex items-center justify-center mb-12 cursor-pointer">
-        P.
-      </div>
-      
-      <!-- Menu Ikon Vertikal -->
-      <ul class="flex flex-col gap-6 w-full items-center">
-        <!-- Kotak-kotak ini anggap saja tempat untuk ikon SVG (Home, About, dll) -->
-        <li class="w-full flex justify-center py-3 hover:bg-white/10 cursor-pointer transition-colors border-l-4 border-transparent hover:border-white">
-          <div class="w-6 h-6 bg-slate-400 rounded-sm"></div> 
-        </li>
-        <li class="w-full flex justify-center py-3 hover:bg-white/10 cursor-pointer transition-colors border-l-4 border-transparent hover:border-white">
-          <div class="w-6 h-6 bg-slate-400 rounded-full"></div>
-        </li>
-        <li class="w-full flex justify-center py-3 hover:bg-white/10 cursor-pointer transition-colors border-l-4 border-transparent hover:border-white">
-          <div class="w-6 h-6 bg-slate-400 rotate-45"></div>
-        </li>
-      </ul>
-    </nav>
-
-    <!-- Loading Screen -->
-    <div class="loading-wrapper">
-      <div class="panel color1"></div>
-      <div class="panel color2"></div>
-      <div class="panel color3"></div>
-      <div class="panel color4"></div>
-    </div>
-
-
-    
-    <!-- Bagian Hero Portfolio -->
-    <div class="content ml-64">
-      <main class="ml-20 relative w-full h-screen flex flex-col justify-center p-16 bg-slate-900 bg-cover bg-center">
-<div class="absolute inset-0 bg-black/40 z-0"></div>
-        
-
-      
-        <h1 class="hero-title text-5xl font-bold opacity-0">Halo, Saya Web Developer</h1>
-        <p class="hero-desc text-lg mt-4 opacity-0 text-gray-400">Fokus pada Performa & Animasi Halus</p>
-      </main>
-      
-      <!-- Area Scrollable untuk Uji Coba ScrollTrigger -->
-      <div class="scrollable-area"></div>
-    </div>
-
-<script>
+<nav class="fixed top-0 left-0 w-20 h-full bg-slate-900 backdrop-blur-sm border-r border-slate-800 flex flex-col items-center py-6 z-50">
+  <div class="w-10 h-10 bg-white text-black font-extrabold flex items-center justify-center mb-12 cursor-pointer">
+    P.
+  </div>
   
-  import "../Script/animation.js";
+  <ul class="flex flex-col gap-6 w-full items-center">
+    <li class="w-full flex justify-center py-3 hover:bg-white/10 cursor-pointer transition-colors border-l-4 border-transparent hover:border-white">
+      <div class="w-6 h-6 bg-slate-400 rounded-sm"></div> 
+    </li>
+    <li class="w-full flex justify-center py-3 hover:bg-white/10 cursor-pointer transition-colors border-l-4 border-transparent hover:border-white">
+      <div class="w-6 h-6 bg-slate-400 rounded-full"></div>
+    </li>
+    <li class="w-full flex justify-center py-3 hover:bg-white/10 cursor-pointer transition-colors border-l-4 border-transparent hover:border-white">
+      <div class="w-6 h-6 bg-slate-400 rotate-45"></div>
+    </li>
+  </ul>
+</nav>
 
-</script>
-
-  </body>
-</html>
+<!-- Bagian Hero Portfolio -->
+<div class="content pl-20"> <!-- Gunakan padding-left 20 agar tidak tertutup sidebar w-20 -->
+  <main class="relative w-full h-screen flex flex-col justify-center p-16 bg-slate-900 bg-cover bg-center">
+    <div class="absolute inset-0 bg-black/40 z-0"></div>
+    
+    <!-- Bungkus teks dengan z-10 agar di atas overlay -->
+    <div class="relative z-10">
+      <h1 class="hero-title text-5xl font-bold opacity-0 translate-y-12">Halo, Saya Web Developer</h1>
+      <p class="hero-desc text-lg mt-4 opacity-0 text-gray-400 translate-y-8">Fokus pada Performa & Animasi Halus</p>
+    </div>
+  </main>
+  
+  <div class="scrollable-area h-screen  bg-slate-900"></div>
+</div>
